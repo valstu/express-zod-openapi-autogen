@@ -12,7 +12,8 @@
     "prepublish": "tsc"
   },
   "dependencies": {
-    "@asteasolutions/zod-to-openapi": "^1.2.1"
+    "@asteasolutions/zod-to-openapi": "^1.2.1",
+    "swagger-ui-express": "^5.0.0"
   },
   "peerDependencies": {
     "express": "^4.19.2",

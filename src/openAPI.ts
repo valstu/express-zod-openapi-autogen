@@ -18,7 +18,7 @@ export type OpenAPIConfig = Parameters<OpenAPIGenerator["generateDocument"]>[0];
 export function buildOpenAPIDocument(args: {
   config: OpenAPIConfig;
   routers: Router[];
-  schemaPaths: string[];
+  schemaPaths: { [key: string]: z.ZodType<any> }[];
   errors: { 401?: string; 403?: string };
   securitySchemes?: OpenAPIComponents["securitySchemes"];
 }): OpenAPIDocument {
@@ -26,8 +26,7 @@ export function buildOpenAPIDocument(args: {
   const registry = new OpenAPIRegistry();
   // Attach all of the Zod schemas to the OpenAPI specification
   // as components that can be referenced in the API definitions
-  const schemas = schemaPaths
-    .flatMap((apiSchemaPath) => Object.entries(require(apiSchemaPath) as { [key: string]: z.ZodType<any> }))
+  const schemas = Object.entries(schemaPaths)
     .filter(([key, schema]) => schema instanceof ZodObject || schema instanceof ZodArray)
     .map(([key, schema]) => ({
       key,
